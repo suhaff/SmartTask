@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="smarttask.MainController"
+            prefWidth="900" prefHeight="600"
+            style="-fx-background-color:#D6E7FF;">  <!-- Light blue background -->
+
+    <center>
+        <StackPane alignment="CENTER">
+
+            <!-- MAIN CARD -->
+            <VBox spacing="25" alignment="CENTER"
+                  maxWidth="820"
+                  style="-fx-background-color:white;
+                         -fx-background-radius:20;
+                         -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.12), 30, 0.3, 0, 10);">
+
+                <!-- FIXED MARGIN -->
+                <StackPane.margin>
+                    <Insets top="40" right="40" bottom="40" left="40"/>
+                </StackPane.margin>
+
+                <padding>
+                    <Insets top="30" right="40" bottom="30" left="40"/>
+                </padding>
+
+                <!-- TITLE -->
+                <Label text="TODO LIST" alignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Label>
+
+                <!-- SEARCH + FILTER + THEME -->
+                <HBox spacing="15" alignment="CENTER_LEFT">
+
+                    <TextField fx:id="searchField"
+                               promptText="Search note..."
+                               style="-fx-background-radius:15;
+                                      -fx-border-radius:15;
+                                      -fx-padding:8 14 8 14;"
+                               HBox.hgrow="ALWAYS"/>
+
+                    <ComboBox fx:id="filterCategory"
+                              prefWidth="120"
+                              style="-fx-background-radius:15; -fx-border-radius:15;"/>
+
+                    <Button fx:id="themeToggle"
+                            text="🌙"
+                            prefWidth="42" prefHeight="42"
+                            style="-fx-background-color:white;
+                                   -fx-background-radius:25;
+                                   -fx-border-color:#CCCCCC;
+                                   -fx-border-radius:25;
+                                   -fx-font-size:18;"/>
+
+                </HBox>
+
+                <!-- TASK LIST -->
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            style="-fx-background-color:transparent;">
+                    <content>
+                        <VBox fx:id="taskList"
+                              spacing="18"
+                              prefWidth="700">
+                            <padding>
+                                <Insets top="10" bottom="10"/>
+                            </padding>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+            </VBox>
+
+            <!-- FLOATING ADD BUTTON -->
+            <Button fx:id="addButton"
+                    text="+"
+                    prefWidth="70" prefHeight="70"
+                    style="-fx-background-color:#6C4CF0;
+                           -fx-text-fill:white;
+                           -fx-background-radius:100;
+                           -fx-font-size:32;
+                           -fx-font-weight:bold;">
+
+                <StackPane.alignment>
+                    BOTTOM_RIGHT
+                </StackPane.alignment>
+
+                <StackPane.margin>
+                    <Insets bottom="40" right="40"/>
+                </StackPane.margin>
+
+            </Button>
+
+        </StackPane>
+    </center>
+
+</BorderPane>
