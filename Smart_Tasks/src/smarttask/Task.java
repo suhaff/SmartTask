@@ -16,7 +16,9 @@ public class Task {
         this.completed = completed;
     }
 
-    // Getters & setters
+    // ---------------------------
+    // Getters + Setters
+    // ---------------------------
     public String getTitle() { return title == null ? "" : title; }
     public void setTitle(String title) { this.title = title; }
 
@@ -29,55 +31,54 @@ public class Task {
     public boolean isCompleted() { return completed; }
     public void setCompleted(boolean completed) { this.completed = completed; }
 
-    // JSON serialization
+
+    // ---------------------------
+    // JSON SERIALIZATION
+    // ---------------------------
     public String toJson() {
-        return "{\"title\":\"" + escape(getTitle()) +
-                "\",\"detail\":\"" + escape(getDetail()) +
-                "\",\"category\":\"" + escape(getCategory()) +
-                "\",\"completed\":" + completed + "}";
+        return "{"
+                + "\"title\":\"" + escape(getTitle()) + "\","
+                + "\"detail\":\"" + escape(getDetail()) + "\","
+                + "\"category\":\"" + escape(getCategory()) + "\","
+                + "\"completed\":" + completed
+                + "}";
     }
 
-    private String escape(String s) {
+    private static String escape(String s) {
         if (s == null) return "";
         return s.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
-    // JSON parsing (works with the crude format we write)
+    // ---------------------------
+    // JSON PARSING
+    // ---------------------------
     public static Task fromJson(String json) {
-        if (json == null) return new Task();
-        String j = json.trim();
-        if (j.startsWith("[")) j = j.substring(1);
-        if (j.endsWith("]")) j = j.substring(0, j.length() - 1);
-        if (j.startsWith("{") && j.endsWith("}")) j = j.substring(1, j.length() - 1);
+        if (json == null || json.isEmpty()) return new Task();
+
+        String raw = json.trim();
+        if (raw.startsWith("{")) raw = raw.substring(1);
+        if (raw.endsWith("}")) raw = raw.substring(0, raw.length() - 1);
 
         String title = "";
         String detail = "";
         String category = "General";
         boolean completed = false;
 
-        // split on top-level commas; but since our fields are simple this is fine:
-        String[] parts = j.split("\",\"");
-        for (int i = 0; i < parts.length; i++) {
-            String p = parts[i].replaceAll("^\"|\"$", "");
-            // handle key:value pairs
-            String[] kv = p.split("\":");
-            if (kv.length < 2) {
-                // try alternative split
-                int idx = p.indexOf("\":");
-                if (idx >= 0) kv = new String[]{p.substring(0, idx), p.substring(idx + 2)};
-            }
+        // Split by top-level commas
+        String[] fields = raw.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+
+        for (String item : fields) {
+            String[] kv = item.split(":", 2);
             if (kv.length < 2) continue;
-            String key = kv[0].replaceAll("^\"|\"$", "").replaceAll("^,","").trim();
-            String val = kv[1].trim();
-            val = val.replaceAll("^\"|\"$", ""); // strip quotes
+
+            String key = kv[0].replace("\"","").trim();
+            String val = kv[1].trim().replaceAll("^\"|\"$", "");
 
             switch (key) {
-                case "title": title = val; break;
-                case "detail": detail = val; break;
-                case "category": category = val; break;
-                case "completed":
-                    completed = "true".equalsIgnoreCase(val) || val.equals("1");
-                    break;
+                case "title" -> title = val;
+                case "detail" -> detail = val;
+                case "category" -> category = val;
+                case "completed" -> completed = val.equals("true");
             }
         }
 

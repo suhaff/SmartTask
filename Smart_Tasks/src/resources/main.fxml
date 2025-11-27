@@ -9,25 +9,45 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="smarttask.MainController"
             prefWidth="900" prefHeight="600"
-            style="-fx-background-color:#D6E7FF;">  <!-- Light blue background -->
+            style="-fx-background-color:#D6E7FF;">
 
+    <!-- TOP MENU BAR -->
+    <top>
+        <MenuBar style="-fx-background-color: white; -fx-padding: 8 15;">
+            <menus>
+                <Menu text="File">
+                    <items>
+                        <MenuItem text="Save" fx:id="menuSave"/>
+                        <MenuItem text="Load" fx:id="menuLoad"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Exit" fx:id="menuExit"/>
+                    </items>
+                </Menu>
+
+                <Menu text="Help">
+                    <items>
+                        <MenuItem text="About SmartTask" fx:id="menuAbout"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
+    <!-- MAIN UI -->
     <center>
         <StackPane alignment="CENTER">
 
             <!-- MAIN CARD -->
-            <VBox spacing="25" alignment="CENTER"
+            <VBox fx:id="cardContainer"
+                  spacing="20"
+                  alignment="CENTER"
                   maxWidth="820"
                   style="-fx-background-color:white;
                          -fx-background-radius:20;
                          -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.12), 30, 0.3, 0, 10);">
 
-                <!-- FIXED MARGIN -->
-                <StackPane.margin>
-                    <Insets top="40" right="40" bottom="40" left="40"/>
-                </StackPane.margin>
-
                 <padding>
-                    <Insets top="30" right="40" bottom="30" left="40"/>
+                    <Insets top="40" right="40" bottom="40" left="40"/>
                 </padding>
 
                 <!-- TITLE -->
@@ -44,7 +64,7 @@
                                promptText="Search note..."
                                style="-fx-background-radius:15;
                                       -fx-border-radius:15;
-                                      -fx-padding:8 14 8 14;"
+                                      -fx-padding:8 14;"
                                HBox.hgrow="ALWAYS"/>
 
                     <ComboBox fx:id="filterCategory"
@@ -63,15 +83,18 @@
                 </HBox>
 
                 <!-- TASK LIST -->
-                <ScrollPane fitToWidth="true"
+                <ScrollPane fx:id="scrollPane"
+                            fitToWidth="true"
                             hbarPolicy="NEVER"
-                            style="-fx-background-color:transparent;">
+                            vbarPolicy="AS_NEEDED"
+                            style="-fx-background:transparent; -fx-background-color:transparent;">
                     <content>
                         <VBox fx:id="taskList"
-                              spacing="18"
+                              spacing="12"
+                              style="-fx-background-color:transparent;"
                               prefWidth="700">
                             <padding>
-                                <Insets top="10" bottom="10"/>
+                                <Insets top="0" bottom="0"/>
                             </padding>
                         </VBox>
                     </content>
@@ -79,7 +102,7 @@
 
             </VBox>
 
-            <!-- FLOATING ADD BUTTON -->
+            <!-- FLOATING BUTTON -->
             <Button fx:id="addButton"
                     text="+"
                     prefWidth="70" prefHeight="70"
@@ -88,15 +111,10 @@
                            -fx-background-radius:100;
                            -fx-font-size:32;
                            -fx-font-weight:bold;">
-
-                <StackPane.alignment>
-                    BOTTOM_RIGHT
-                </StackPane.alignment>
-
+                <StackPane.alignment>BOTTOM_RIGHT</StackPane.alignment>
                 <StackPane.margin>
                     <Insets bottom="40" right="40"/>
                 </StackPane.margin>
-
             </Button>
 
         </StackPane>
